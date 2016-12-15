@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.2/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.2/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.2/addons/p5.sound.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+
+
+    <script src="data.js"></script>
+    <script src="bird.js"></script>
+    <script src="interface.js"></script>
+    <script src="intro.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+  </head>
+  <body>
+    
+    <div id="thisCanvas">
+    </div>
+
+    <div id="introText">
+    	<div class ="innerWrap">
+    		<h1 id="title">Birds in C</h1>
+    		<div id="desc">
+    			<p>Conduct an orchestra of birds through a re-interpretion of Terry Riley’s “In C”. The original phrases have been reconstructed using recorded bird sounds from the wild to create an unexpected cacophony of chirps, whistles, and hoots. As the conductor, you can add different birds to the orchestra and advance each of them from one phrase to the next.</p>
+    			<hr>
+    			<div id="instruc">
+    				<p>Hover over the shapes on this page to hear the different sounds and tune the orchestra.</p>
+    				<p>When you're ready, <span id="start">let's start!</span></p>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+
+    <div id="playingText">
+    	<div class ="innerWrap">
+    		<h1>How To Play</h1>
+    		<div>
+    			<p>Use the <span>+</span> button to add birds to the orchestra.</p>
+    			<p>Progress each bird through the different phrases by clicking their name.</p>
+    		</div>
+    	</div>
+    </div>
+
+    <script src="sketch.js"></script>
+  </body>
+</html>
