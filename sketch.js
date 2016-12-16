@@ -1,6 +1,7 @@
 var fr = 30;
 
 var introState = true;
+var practiceState = false;
 var gameState = false;
 
 var mousePosX;
@@ -68,6 +69,27 @@ function draw() {
     var title = select("#introText");
     title.show();
 
+    var practice = select("#practiceText");
+    practice.hide();
+
+    var playInstruc = select("#playingText");
+    playInstruc.hide();
+  
+    /*for (i = 0; i < allIntroShapes.length; i++) {
+      //check mouse position
+      allIntroShapes[i].mouseHover();
+    }*/
+
+  }
+
+  if (practiceState == true) {
+
+    var title = select("#introText");
+    title.hide();
+
+    var practice = select("#practiceText");
+    practice.show();
+
     var playInstruc = select("#playingText");
     playInstruc.hide();
 
@@ -76,13 +98,6 @@ function draw() {
     } else {
       displayAllShapes();
     }
-
-  
-    /*for (i = 0; i < allIntroShapes.length; i++) {
-      //check mouse position
-      allIntroShapes[i].mouseHover();
-    }*/
-
   }
 
 
@@ -92,14 +107,20 @@ function draw() {
     var title = select("#introText");
     title.hide();
 
-    var playInstruc = select("#playingText");
+    var practice = select("#practiceText");
+    practice.hide();
 
-    addButton.display();
+    //var playInstruc = select("#playingText");
+
+    if (players.length != 4) {
+      addButton.display();
+    }
+
+    
 
     if (players.length != 0) {
-      playInstruc.hide();
-      //show line
-      centerLine.display();
+      //playInstruc.hide();
+      
       //show shapes
       for (i = 0; i < players.length; i++) {
         // show and move composite sound shapes
@@ -109,14 +130,10 @@ function draw() {
         // show interaction visuals
         players[i].advancer.display();
       } 
-    } else {
-      
-      playInstruc.show();
+
+      //show line
+      centerLine.display();
     }
-
-
-
-    
   }
 }
 
@@ -137,6 +154,19 @@ function mousePressed() {
   }
 }
 
+function mouseMoved() {
+  if (gameState == true) {
+    addButton.mouseover();
+  }
+}
+
+
+$("#startButton").click(function() {
+  introState = false;
+  practiceState = true;
+  gameState = false;
+});
+
 function keyPressed() {
   if (key == " ") {
     if (compositeStateOpen == false) {
@@ -144,5 +174,23 @@ function keyPressed() {
     } else {
       contractBirds();
     }
+  }
+
+  if (key == 'A' || key == 'a') {
+    introState = true;
+    practiceState = false;
+    gameState = false;
+  }
+
+  if (key == 'S' || key == 's') {
+    introState = false;
+    practiceState = true;
+    gameState = false;
+  }
+
+  if (key == 'D' || key == 'd') {
+    introState = false;
+    practiceState = false;
+    gameState = true;
   }
 }

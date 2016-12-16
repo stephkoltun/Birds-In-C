@@ -6,7 +6,7 @@ function Shape(phraseIndex) {
 	this.c = 0;
 	this.filled = false;
 
-	this.scale = 5;
+	this.scale = 4.5;
 
 	this.phraseIndex = phraseIndex;
 
@@ -79,16 +79,14 @@ function addAllShapes() {
 
 function displayAllShapes() {
 
-	// DEBUG LINE FOR ORIGIN
-/*	stroke(0);
-	strokeWeight(2);
-	line(-width/2,0,width/2,0);
-	line(0,0,0,0);*/
-
-	var xOffset = -width/2+40;
+	var xOffset = -width/2+60;
 	var padding = 20;
-	var yOffset = height/originYAdjust*2;
+	var textOffset = yOffset
+	var yOffset = height/originYAdjust*2-60;
 	var counterOffset = 1;
+
+	var instructions = select("#instText");
+	instructions.position(-width/2+60,-height/originYAdjust*2+20);
 
 	for (var i = 0; i < allIntroShapes.length; i++) {
 
@@ -122,8 +120,8 @@ function displayAllShapes() {
 	    	if (xOffset+nextShape.shapeLength*scale < (width/2-nextShape.shapeLength*scale-40)) {
 		    	xOffset = xOffset + thisShape.shapeLength*scale + padding;
 			} else {
-				xOffset = -width/2+40;
-				yOffset = height/originYAdjust*2 - 150*counterOffset;
+				xOffset = -width/2+60;
+				yOffset = height/originYAdjust*2-60 - 120*counterOffset;
 				counterOffset++;
 			}
 		// last shape

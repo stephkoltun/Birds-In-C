@@ -90,10 +90,13 @@ function Bird(soundPhrases,color) {
 function Advancer(color,name) {
   this.index;
   this.x = 0;
-  this.y = 55+55*(birdIndex); //space between birds
+  this.y = 20+55*(birdIndex); //space between birds
   this.triY = this.y+20; // space between shapes and bird title
   this.width = 12;
   this.height = 12;
+
+  this.textX = this.x-10;
+  this.textY = this.triY+3;
 
   this.multiplier = 4;
   this.phraseIndex = 0;
@@ -107,15 +110,6 @@ function Advancer(color,name) {
   ];
 
   this.display = function() {
-    
-    //triangle(this.x,this.triY,this.x,this.triY+this.height,this.x+this.width,this.triY+this.height/2);
-    //stroke(0);
-    //line(-width/2,this.y,width/2,this.y);
-
-    fill(this.c);
-    noStroke();
-    textAlign(LEFT,BOTTOM);
-    text(name,this.x, this.y);
 
     // display shapes as well
     for (var i = 0; i < this.shapes.length; i++) {
@@ -128,24 +122,32 @@ function Advancer(color,name) {
 
       stroke(this.c);
       strokeWeight(1);
+
+      var x;
+      var y;
       beginShape();
-
-
         for (var j = 0; j < this.shapes[i].noteDuration.length; j++) {
 
           if (i !=0 ) {
             // length of prev shape is the offset
             var xOffset = this.shapes[i-1].shapeLength;
-            var x = (this.shapes[i].noteDuration[j]+xOffset)*this.multiplier; 
+            x = (this.shapes[i].noteDuration[j]+xOffset)*this.multiplier; 
 
           } else {
-            var x = this.shapes[i].noteDuration[j]*this.multiplier;
+            x = this.shapes[i].noteDuration[j]*this.multiplier;
           }
-          var y = this.shapes[i].frequency[j]*this.multiplier;
+          y = this.shapes[i].frequency[j]*this.multiplier;
 
           vertex(x,-y+this.triY);
         }
       endShape(CLOSE);
+
+      // bird label
+      fill(this.c);
+      noStroke();
+      textFont('Unica One',14);
+      textAlign(RIGHT,BOTTOM);
+      text(name,this.textX, this.textY);
     }
   }
 
@@ -171,6 +173,8 @@ function Advancer(color,name) {
         players[this.index].phraseIndex++;
         players[this.index].playSound();
 
+        
+
         // move previous phrases
         for (var i = 0; i < this.shapes.length; i++) {
 
@@ -181,6 +185,11 @@ function Advancer(color,name) {
             this.shapes[i].noteDuration[j] = this.shapes[i].noteDuration[j] - shiftLength;
           }
         }
+
+        // move label
+        this.textX = this.textX - shiftLength*this.multiplier;
+
+
         // add new phrase
         this.phraseIndex++;
         this.addPhrase();
