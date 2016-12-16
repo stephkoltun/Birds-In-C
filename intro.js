@@ -6,7 +6,7 @@ function Shape(phraseIndex) {
 	this.c = 0;
 	this.filled = false;
 
-	this.scale = 7;
+	this.scale = 5;
 
 	this.phraseIndex = phraseIndex;
 
@@ -24,7 +24,6 @@ function Shape(phraseIndex) {
 
 		for (i = 0; i < phraseIndex; i++) {
 			if (i != phraseIndex) {
-				console.log()
 				prevShapeLengths = prevShapeLengths + allIntroShapes[i].shapePoints.shapeLength*this.scale;
 			}
 		}
@@ -89,14 +88,16 @@ function displayAllShapes() {
 	var xOffset = -width/2+40;
 	var padding = 20;
 	var yOffset = height/originYAdjust*2;
+	var counterOffset = 1;
 
 	for (var i = 0; i < allIntroShapes.length; i++) {
 
 		var thisShape = allIntroShapes[i].shapePoints;
-		var scale = allIntroShapes[i].scale;
 		
+		var scale = allIntroShapes[i].scale;
+
 		stroke(0);
-		strokeWeight(2);
+		strokeWeight(1.5);
 		strokeCap(ROUND);
 
 		if (allIntroShapes[i].filled) {
@@ -114,7 +115,22 @@ function displayAllShapes() {
 		    vertex(x,-y);  
 	    }
 	    endShape(CLOSE);
-	    xOffset = xOffset + thisShape.shapeLength*scale + padding;
+
+	    // not last shape
+	    if (i < allIntroShapes.length-1) {
+	    	var nextShape = allIntroShapes[i+1].shapePoints;
+	    	if (xOffset+nextShape.shapeLength*scale < (width/2-nextShape.shapeLength*scale-40)) {
+		    	xOffset = xOffset + thisShape.shapeLength*scale + padding;
+			} else {
+				xOffset = -width/2+40;
+				yOffset = height/originYAdjust*2 - 150*counterOffset;
+				counterOffset++;
+			}
+		// last shape
+	    } else {
+	    	xOffset = xOffset + thisShape.shapeLength*scale + padding;
+	    }
+	    
 	}
 }
 

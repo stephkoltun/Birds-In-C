@@ -78,10 +78,10 @@ function draw() {
     }
 
   
-    for (i = 0; i < allIntroShapes.length; i++) {
+    /*for (i = 0; i < allIntroShapes.length; i++) {
       //check mouse position
       allIntroShapes[i].mouseHover();
-    }
+    }*/
 
   }
 
