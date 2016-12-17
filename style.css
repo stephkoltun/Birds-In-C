@@ -67,16 +67,23 @@ p.special {
 	color: white;
 }
 
-
-#start {
-	box-shadow: 0 2px 0 0;
-	
+#reset {
+	background:rgb(240,240,240);
+  	border: 1.5px solid rgb(175,175,175);
+  	border-radius: 15px;
+  	color: rgb(175,175,175);
+  	font-size: 10px;
+  	font-weight: 600;
+	font-family: 'Raleway', sans-serif;
+	padding: 4px 8px;
 }
 
-#start:hover {
-	font-weight: 700;
-	cursor: pointer;
+#reset:hover {
+	background: rgb(175,175,175);
+	color: rgb(240,240,240);
 }
+
+
 
 #instruc {
 	color: rgb(50,175,110);

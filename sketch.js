@@ -12,6 +12,7 @@ var opacity = "0.5";
 var originYAdjust = 4;
 var originOffset = 2.5;
 
+var time;
 
 var masterBirdSounds = [];
 
@@ -49,6 +50,7 @@ function setup() {
   frameRate(fr);
   addButton = new Initializer(0,0,0);
   centerLine = new Grid();
+  time = millis();
 }
 
 function draw() {
@@ -110,17 +112,16 @@ function draw() {
     var practice = select("#practiceText");
     practice.hide();
 
-    //var playInstruc = select("#playingText");
-
     if (players.length != 4) {
       addButton.display();
     }
 
-    
-
     if (players.length != 0) {
-      //playInstruc.hide();
-      
+       // reset button
+      var playInstruc = select("#playingText");
+      playInstruc.show();
+      playInstruc.position(width-100,height/2+40);
+
       //show shapes
       for (i = 0; i < players.length; i++) {
         // show and move composite sound shapes
@@ -130,7 +131,6 @@ function draw() {
         // show interaction visuals
         players[i].advancer.display();
       } 
-
       //show line
       centerLine.display();
     }
@@ -157,6 +157,9 @@ function mousePressed() {
 function mouseMoved() {
   if (gameState == true) {
     addButton.mouseover();
+    for (i = 0; i < players.length; i++) {
+      players[i].advancer.mouseover();
+    }
   }
 }
 
@@ -166,6 +169,17 @@ $("#startButton").click(function() {
   practiceState = true;
   gameState = false;
 });
+
+$("#reset").click(function() {
+  // empty array
+
+  for (var i = 0; i < players.length; i++) {
+    players[i].stopSound();
+  }
+  players.splice(0,players.length);
+  birdIndex = 0;
+  addButton.buttonOffset = 0;
+})
 
 function keyPressed() {
   if (key == " ") {

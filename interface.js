@@ -7,7 +7,6 @@ function expandBirds() {
     players[lastPlayer-i].verticalOffset = i*(height/15*2);
   }
   compositeStateOpen = true;
-  centerLine.height = (height/originYAdjust)*originOffset;
 }
 
 function contractBirds() {
@@ -15,13 +14,12 @@ function contractBirds() {
     players[i].verticalOffset = 0;
   }
   compositeStateOpen = false;
-  centerLine.height = height/15*2;
 }
 
 
 function Initializer(r,g,b) {
   this.x = 0;
-  this.y = 20;
+  this.y = 40;
   this.width = 2;
   this.height = 10;
 
@@ -59,7 +57,7 @@ function Initializer(r,g,b) {
     fill(this.fillPlus);
     textFont("Raleway", 12);
     textAlign(LEFT,CENTER);
-    text("bird", 15, 25+this.buttonOffset);
+    text("bird", 15, this.y+5+this.buttonOffset);
   }
 
   this.clicked = function() {
@@ -93,7 +91,7 @@ function Grid() {
   this.y = 0;
 
   this.width = width/2;
-  this.height = height/15*3;
+  this.height = (height/originYAdjust)*originOffset;
 
   this.display = function() {
     fill(240,160);
