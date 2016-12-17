@@ -79,14 +79,15 @@ function addAllShapes() {
 
 function displayAllShapes() {
 
-	var xOffset = -width/2+60;
+	var xOffset = -width/2+60+270;
 	var padding = 20;
-	var textOffset = yOffset
-	var yOffset = height/originYAdjust*2-60;
+	var textOffset = yOffset;
+	var yOffset = height/originYAdjust*2-10;
+
 	var counterOffset = 1;
 
-	var instructions = select("#instText");
-	instructions.position(-width/2+60,-height/originYAdjust*2+20);
+	var instructions = select("#practiceText");
+	instructions.position(60,30);
 
 	for (var i = 0; i < allIntroShapes.length; i++) {
 
@@ -117,11 +118,11 @@ function displayAllShapes() {
 	    // not last shape
 	    if (i < allIntroShapes.length-1) {
 	    	var nextShape = allIntroShapes[i+1].shapePoints;
-	    	if (xOffset+nextShape.shapeLength*scale < (width/2-nextShape.shapeLength*scale-40)) {
+	    	if (xOffset+nextShape.shapeLength*scale < (width/2-nextShape.shapeLength*scale-60)) {
 		    	xOffset = xOffset + thisShape.shapeLength*scale + padding;
 			} else {
-				xOffset = -width/2+60;
-				yOffset = height/originYAdjust*2-60 - 120*counterOffset;
+				xOffset = -width/2+60+270;
+				yOffset = height/originYAdjust*2-10 - 120*counterOffset;
 				counterOffset++;
 			}
 		// last shape

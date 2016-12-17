@@ -3,7 +3,7 @@ html, body {
   padding: 0;
 }
 
-#introText, #playingText, #practiceText {
+#introText, #playingText {
 
   position: absolute;
   top: 50%;
@@ -47,6 +47,10 @@ p.special {
 	font-size: 17px;
 	font-weight: 600;
 	font-family: 'Raleway', sans-serif;
+}
+
+#practiceText {
+	width: 240px;
 }
 
 #startButton {
