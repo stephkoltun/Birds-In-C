@@ -74,8 +74,8 @@ function draw() {
     var practice = select("#practiceText");
     practice.hide();
 
-    var playInstruc = select("#playingText");
-    playInstruc.hide();
+/*    var playInstruc = select("#playingText");
+    playInstruc.hide();*/
   
     /*for (i = 0; i < allIntroShapes.length; i++) {
       //check mouse position
@@ -92,8 +92,8 @@ function draw() {
     var practice = select("#practiceText");
     practice.show();
 
-    var playInstruc = select("#playingText");
-    playInstruc.hide();
+/*    var playInstruc = select("#playingText");
+    playInstruc.hide();*/
 
     if (allIntroShapes.length == 0) {
       addAllShapes();
@@ -118,10 +118,10 @@ function draw() {
 
     if (players.length != 0) {
        // reset button
-      var playInstruc = select("#playingText");
+/*      var playInstruc = select("#playingText");
       playInstruc.show();
       playInstruc.position(width-100,height/2+40);
-
+*/
       //show shapes
       for (i = 0; i < players.length; i++) {
         // show and move composite sound shapes
@@ -168,6 +168,12 @@ $("#startButton").click(function() {
   introState = false;
   practiceState = true;
   gameState = false;
+});
+
+$("#playButton").click(function() {
+  introState = false;
+  practiceState = false;
+  gameState = true;
 });
 
 $("#reset").click(function() {

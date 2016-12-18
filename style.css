@@ -53,7 +53,7 @@ p.special {
 	width: 240px;
 }
 
-#startButton {
+#startButton, #playButton {
 	background:none;
   	border: 2px solid rgb(50,175,110);
   	color: rgb(50,175,110);
@@ -66,7 +66,7 @@ p.special {
   	margin: 40px auto;
 }
 
-#startButton:hover{
+#startButton:hover, #playButton:hover {
 	background: rgb(50,175,110);
 	color: white;
 }
