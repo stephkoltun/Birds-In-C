@@ -6,29 +6,21 @@ function Shape(phraseIndex) {
 	this.c = 0;
 	this.filled = false;
 
-	this.scale = 4.5;
+	this.scale = 6;
 
 	this.phraseIndex = phraseIndex;
 
 	this.shapePoints = {};
-	this.soundRefs = [];
+	this.soundRefs;
+
+	this.leftEdge;
+	this.rightEdge;
+	this.topEdge;
+	this.bottomEdge;
+
+
 
 	this.mouseHover = function() {
-
-		var midX = this.shapePoints.shapeLength/2*this.scale;
-		var midY = Math.max(...this.shapePoints.frequency)/2*this.scale;
-
-		var xOffset = -width/2+40;
-		var buffer = phraseIndex*20;
-		var prevShapeLengths = 0;
-
-		for (i = 0; i < phraseIndex; i++) {
-			if (i != phraseIndex) {
-				prevShapeLengths = prevShapeLengths + allIntroShapes[i].shapePoints.shapeLength*this.scale;
-			}
-		}
-
-		var xTotalOffset = xOffset+buffer+prevShapeLengths;
 
 		// circle at center to see where the shape is
 		// FOR DEBUGGING
@@ -36,19 +28,17 @@ function Shape(phraseIndex) {
 		//ellipse(midX+xTotalOffset,-midY-height/originYAdjust*2,5,5);
 
 
-		var d = dist(mousePosX, mousePosY, midX+xTotalOffset, -midY-height/originYAdjust*2);
-		if (d <= Math.max(midX,midY)) {
+		if (mousePosX < this.rightEdge && mousePosX > this.leftEdge && mousePosY > this.topEdge && mousePosY < this.bottomEdge) {
 			this.filled = true;
-
-			if (this.soundRefs[0].isPlaying() == false) {
-				this.soundRefs[0].play();
-				this.soundRefs[0].loop();
-			}			
-
+			
+			if (this.soundRefs.isPlaying() == false) {
+				this.soundRefs.setVolume(1);
+				this.soundRefs.play();
+				//this.soundRefs.loop();
+			}
 		} else {
 			this.filled = false;
-			this.soundRefs[0].stop();
-			this.soundRefs[0].setVolume(0);
+			this.soundRefs.setVolume(0);
 		}
 	}
 }
@@ -65,13 +55,11 @@ function addAllShapes() {
 	    shape.shapePoints.frequency = masterShapes[i].frequency.slice();
 	    shape.shapePoints.shapeLength = masterShapes[i].shapeLength;
 
-	    var theseSounds = shape.soundRefs;
-
 	    // add sound file from each bird for this specific phrase
-	    for (var bird = 0; bird < masterBirdSounds.length; bird++) {
-	    	var thisBird = masterBirdSounds[bird];
-	    	theseSounds.push(thisBird[curPhrase]);
-	    }
+	    shape.soundRefs = masterBirdSounds[0][i];
+
+	    
+
 
 	    allIntroShapes.push(shape);
 	}
@@ -114,6 +102,11 @@ function displayAllShapes() {
 		    vertex(x,-y);  
 	    }
 	    endShape(CLOSE);
+
+	   	allIntroShapes[i].leftEdge = thisShape.noteDuration[0]*scale+xOffset;
+	    allIntroShapes[i].rightEdge = allIntroShapes[i].leftEdge+thisShape.shapeLength*scale;
+	    allIntroShapes[i].topEdge = -(Math.max(...thisShape.frequency)*scale+yOffset);
+	    allIntroShapes[i].bottomEdge = -(Math.min(...thisShape.frequency)*scale+yOffset);
 
 	    // not last shape
 	    if (i < allIntroShapes.length-1) {

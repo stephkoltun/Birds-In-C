@@ -75,6 +75,7 @@ function Bird(soundPhrases,color) {
   }
 
   this.playSound = function() {
+    this.sounds[this.phraseIndex].setVolume(1);
     this.sounds[this.phraseIndex].play();
     this.sounds[this.phraseIndex].loop();
   }
