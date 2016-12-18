@@ -6,7 +6,7 @@ function Shape(phraseIndex) {
 	this.c = 0;
 	this.filled = false;
 
-	this.scale = 6;
+	this.scale = 7;
 
 	this.phraseIndex = phraseIndex;
 
@@ -115,7 +115,7 @@ function displayAllShapes() {
 		    	xOffset = xOffset + thisShape.shapeLength*scale + padding;
 			} else {
 				xOffset = -width/2+60+270;
-				yOffset = height/originYAdjust*2-10 - 120*counterOffset;
+				yOffset = height/originYAdjust*2-10 - 160*counterOffset;
 				counterOffset++;
 			}
 		// last shape

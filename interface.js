@@ -68,7 +68,7 @@ function Initializer(r,g,b) {
       birdIndex++;
 
       // move button down
-      this.buttonOffset = this.buttonOffset + 55;
+      this.buttonOffset = this.buttonOffset + 85;
       console.log("added bird!");
     }
   }

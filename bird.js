@@ -94,7 +94,7 @@ function Bird(soundPhrases,color) {
 function Advancer(color,name) {
   this.index;
   this.x = 0;
-  this.y = 35+60*(birdIndex); //space between birds
+  this.y = 55+90*(birdIndex); //space between birds
   this.triY = this.y+20; // space between shapes and bird title
   this.width = 12;
   this.height = 12;
@@ -102,7 +102,7 @@ function Advancer(color,name) {
   this.textX = this.x-10;
   this.textY = this.triY+3;
 
-  this.multiplier = 4;
+  this.multiplier = 5;
   this.phraseIndex = 0;
   this.nextPhrase = this.phraseIndex+1;
 

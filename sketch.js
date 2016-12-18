@@ -74,13 +74,9 @@ function draw() {
     var practice = select("#practiceText");
     practice.hide();
 
-/*    var playInstruc = select("#playingText");
-    playInstruc.hide();*/
-  
-    /*for (i = 0; i < allIntroShapes.length; i++) {
-      //check mouse position
-      allIntroShapes[i].mouseHover();
-    }*/
+    var playInstruc = select("#playingText");
+    playInstruc.hide();
+
 
   }
 
@@ -92,8 +88,8 @@ function draw() {
     var practice = select("#practiceText");
     practice.show();
 
-/*    var playInstruc = select("#playingText");
-    playInstruc.hide();*/
+   var playInstruc = select("#playingText");
+    playInstruc.hide();
 
     if (allIntroShapes.length == 0) {
       addAllShapes();
@@ -123,10 +119,10 @@ function draw() {
 
     if (players.length != 0) {
        // reset button
-/*      var playInstruc = select("#playingText");
+      var playInstruc = select("#playingText");
       playInstruc.show();
       playInstruc.position(width-100,height/2+40);
-*/
+
       //show shapes
       for (i = 0; i < players.length; i++) {
         // show and move composite sound shapes
@@ -182,14 +178,16 @@ $("#playButton").click(function() {
 });
 
 $("#reset").click(function() {
+
+  location.reload();
   // empty array
 
-  for (var i = 0; i < players.length; i++) {
+/*  for (var i = 0; i < players.length; i++) {
     players[i].stopSound();
   }
   players.splice(0,players.length);
   birdIndex = 0;
-  addButton.buttonOffset = 0;
+  addButton.buttonOffset = 0;*/
 })
 
 function keyPressed() {
