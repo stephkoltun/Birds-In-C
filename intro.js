@@ -1,6 +1,6 @@
 var allIntroShapes = [];
 
-
+var prevShapeSoundPlayed = 52;
 
 function Shape(phraseIndex) {
 	this.c = 0;
@@ -20,7 +20,7 @@ function Shape(phraseIndex) {
 
 
 
-	this.mouseHover = function() {
+	this.clicked = function() {
 
 		// circle at center to see where the shape is
 		// FOR DEBUGGING
@@ -32,13 +32,27 @@ function Shape(phraseIndex) {
 			this.filled = true;
 			
 			if (this.soundRefs.isPlaying() == false) {
+				// stop previous sound
+				allIntroShapes[prevShapeSoundPlayed].soundRefs.stop();
+
 				this.soundRefs.setVolume(1);
 				this.soundRefs.play();
-				//this.soundRefs.loop();
+				prevShapeSoundPlayed = this.phraseIndex;
 			}
+		} 
+	}
+
+	this.mouseHover = function() {
+
+		if (mousePosX < this.rightEdge && mousePosX > this.leftEdge && mousePosY > this.topEdge && mousePosY < this.bottomEdge) {
+
+			this.filled = true;
 		} else {
-			this.filled = false;
-			this.soundRefs.setVolume(0);
+			if (this.soundRefs.isPlaying()) {
+				this.filled = true;
+			} else {
+				this.filled = false;
+			}
 		}
 	}
 }
@@ -87,6 +101,9 @@ function displayAllShapes() {
 		strokeWeight(1.5);
 		strokeCap(ROUND);
 
+		
+
+
 		if (allIntroShapes[i].filled) {
 			fill(0);
 		} else {
@@ -115,7 +132,7 @@ function displayAllShapes() {
 		    	xOffset = xOffset + thisShape.shapeLength*scale + padding;
 			} else {
 				xOffset = -width/2+60+270;
-				yOffset = height/originYAdjust*2-10 - 160*counterOffset;
+				yOffset = height/originYAdjust*2-10 - 200*counterOffset;
 				counterOffset++;
 			}
 		// last shape

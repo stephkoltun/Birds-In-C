@@ -107,6 +107,8 @@ function Advancer(color,name) {
   this.nextPhrase = this.phraseIndex+1;
 
   this.nextOffset = 5;
+  this.weight = 2;
+  this.quietweight = 0.5;
 
   this.c = "rgb(" + color + ")";
 
@@ -123,14 +125,17 @@ function Advancer(color,name) {
 
       if (i == this.phraseIndex) {
         fill(this.c); 
+        strokeWeight(this.weight);
       } else if (i == this.phraseIndex + 1) {
         fill(this.fillNext); 
+        strokeWeight(this.weight);
       } else {
         noFill();
+        strokeWeight(this.quietweight);
       }
 
       stroke(this.c);
-      strokeWeight(1);
+      
 
       var x;
       var y;

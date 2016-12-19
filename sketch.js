@@ -97,10 +97,10 @@ function draw() {
       displayAllShapes();
     }
 
-    for (i = 0; i < allIntroShapes.length; i++) {
+/*    for (i = 0; i < allIntroShapes.length; i++) {
       //check mouse position
       allIntroShapes[i].mouseHover();
-    }
+    }*/
   }
 
 
@@ -153,6 +153,13 @@ function mousePressed() {
       players[i].advancer.clicked();
     }
   }
+
+  if (practiceState == true) {
+    for (i = 0; i < allIntroShapes.length; i++) {
+      //check mouse position
+      allIntroShapes[i].clicked();
+    }
+  }
 }
 
 function mouseMoved() {
@@ -160,6 +167,13 @@ function mouseMoved() {
     addButton.mouseover();
     for (i = 0; i < players.length; i++) {
       players[i].advancer.mouseover();
+    }
+  }
+
+  if (practiceState == true) {
+    for (i = 0; i < allIntroShapes.length; i++) {
+      //check mouse position
+      allIntroShapes[i].mouseHover();
     }
   }
 }
