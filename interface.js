@@ -3,8 +3,11 @@ var compositeStateOpen = false;
 function expandBirds() {
   console.log("Expand!");
   var lastPlayer = players.length-1;
+
+  var overallExpandHeight = height*(originOffset/originYAdjust)-50;
+
   for (i = 0; i < players.length; i++) {
-    players[lastPlayer-i].verticalOffset = i*(height/15*2);
+    players[lastPlayer-i].verticalOffset = i*(overallExpandHeight/4);
   }
   compositeStateOpen = true;
 }
@@ -18,8 +21,11 @@ function contractBirds() {
 
 
 function Initializer(r,g,b) {
+  var spaceForBirds = height*((originYAdjust-originOffset)/originYAdjust)-50;
+  var birdHeight = spaceForBirds/4;
+
   this.x = 0;
-  this.y = 40;
+  this.y = birdHeight/2;
   this.width = 2;
   this.height = 10;
 
@@ -67,8 +73,10 @@ function Initializer(r,g,b) {
       players[birdIndex].playSound();
       birdIndex++;
 
+      
+
       // move button down
-      this.buttonOffset = this.buttonOffset + 85;
+      this.buttonOffset = this.buttonOffset + birdHeight;
       console.log("added bird!");
     }
   }

@@ -9,8 +9,8 @@ var mousePosY;
 
 var opacity = "0.5";
 
-var originYAdjust = 4;
-var originOffset = 2.5;
+var originYAdjust = 3;
+var originOffset = 1;
 
 var time;
 
@@ -61,8 +61,10 @@ function draw() {
   mousePosX = mouseX-width/2;
   mousePosY = mouseY-((height/originYAdjust)*originOffset);
 
+
+  // ELLIPSE FOR DEBUGGING, SHOWS MOUSE POSITION
   ellipseMode(CENTER);
-  fill(0);
+  fill(255,30,80);
   ellipse(mouseX-width/2,mouseY-((height/originYAdjust)*originOffset),5,5);
 
 
@@ -142,10 +144,11 @@ function draw() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+
 }
 
 
-function mousePressed() {
+/*function mousePressed() {
 
   if (gameState == true) {
     addButton.clicked();
@@ -160,9 +163,10 @@ function mousePressed() {
       allIntroShapes[i].clicked();
     }
   }
-}
+}*/
 
 function mouseMoved() {
+
   if (gameState == true) {
     addButton.mouseover();
     for (i = 0; i < players.length; i++) {
@@ -189,6 +193,14 @@ $("#playButton").click(function() {
   introState = false;
   practiceState = false;
   gameState = true;
+
+  for (i = 0; i < allIntroShapes.length; i++) {
+      //make all stop playing
+      allIntroShapes[i].soundRefs.jump();
+      allIntroShapes[i].soundRefs.stop();
+
+    }
+
 });
 
 $("#reset").click(function() {

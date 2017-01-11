@@ -92,21 +92,25 @@ function Bird(soundPhrases,color) {
 
 
 function Advancer(color,name) {
+
+  var spaceForBirds = height*((originYAdjust-originOffset)/originYAdjust)-50;
+  var birdHeight = spaceForBirds/4;
+
   this.index;
   this.x = 0;
-  this.y = 55+90*(birdIndex); //space between birds
-  this.triY = this.y+20; // space between shapes and bird title
+  this.y = birdHeight+birdHeight*(birdIndex); //space between birds
+  this.triY = this.y; // space between shapes and bird title
   this.width = 12;
   this.height = 12;
 
   this.textX = this.x-10;
   this.textY = this.triY+3;
 
-  this.multiplier = 5;
+  this.multiplier = 6;
   this.phraseIndex = 0;
   this.nextPhrase = this.phraseIndex+1;
 
-  this.nextOffset = 5;
+  this.nextOffset = 8;
   this.weight = 2;
   this.quietweight = 0.5;
 
@@ -211,7 +215,7 @@ function Advancer(color,name) {
     var topEdge = bottomEdge-(Math.max(...shape.frequency)*this.multiplier);
     
 
-    if (mousePosX > leftEdge && mousePosX < rightEdge && mousePosY > topEdge && mousePosY < bottomEdge) {
+    if (mousePosX > leftEdge && mousePosX < rightEdge && mousePosY > topEdge-10 && mousePosY < bottomEdge+10) {
 
       // if not the last shape
       if (players[this.index].phraseIndex < masterShapes.length-1) {

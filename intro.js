@@ -6,7 +6,17 @@ function Shape(phraseIndex) {
 	this.c = 0;
 	this.filled = false;
 
-	this.scale = 7;
+	if (width <= 768) {
+		this.scale = 3;
+	} else if (width > 768 && width <= 992) {
+		this.scale = 4;
+	} else if (width > 992 && width <= 1200) {
+		this.scale = 4.3;
+	}  else if (width > 1200) {
+		this.scale = 5.5;
+	}
+
+	
 
 	this.phraseIndex = phraseIndex;
 
@@ -28,7 +38,7 @@ function Shape(phraseIndex) {
 		//ellipse(midX+xTotalOffset,-midY-height/originYAdjust*2,5,5);
 
 
-		if (mousePosX < this.rightEdge && mousePosX > this.leftEdge && mousePosY > this.topEdge && mousePosY < this.bottomEdge) {
+		if (mousePosX < this.rightEdge+5 && mousePosX > this.leftEdge-5 && mousePosY > this.topEdge-10 && mousePosY < this.bottomEdge+10) {
 			this.filled = true;
 			
 			if (this.soundRefs.isPlaying() == false) {
@@ -44,8 +54,8 @@ function Shape(phraseIndex) {
 
 	this.mouseHover = function() {
 
-		if (mousePosX < this.rightEdge && mousePosX > this.leftEdge && mousePosY > this.topEdge && mousePosY < this.bottomEdge) {
 
+		if (mousePosX < this.rightEdge && mousePosX > this.leftEdge && mousePosY > this.topEdge && mousePosY < this.bottomEdge) {
 			this.filled = true;
 		} else {
 			if (this.soundRefs.isPlaying()) {
@@ -56,6 +66,7 @@ function Shape(phraseIndex) {
 		}
 	}
 }
+
 
 
 function addAllShapes() {
@@ -72,9 +83,6 @@ function addAllShapes() {
 	    // add sound file from each bird for this specific phrase
 	    shape.soundRefs = masterBirdSounds[0][i];
 
-	    
-
-
 	    allIntroShapes.push(shape);
 	}
 }
@@ -82,9 +90,23 @@ function addAllShapes() {
 function displayAllShapes() {
 
 	var xOffset = -width/2+60+270;
-	var padding = 20;
+	var padding;
+	var yPadding;
 	var textOffset = yOffset;
-	var yOffset = height/originYAdjust*2-10;
+	var yOffset = height*(originOffset/originYAdjust)-100;
+
+	if (width <= 768) {
+		padding = 5;
+	} else if (width > 768 && width <= 992) {
+		padding = 10;
+	} else if (width > 992 && width <= 1200) {
+		padding = 10;
+		yPadding = 128;
+	}  else if (width > 1200) {
+		padding = 20;
+		yPadding = 140;
+	}
+
 
 	var counterOffset = 1;
 
@@ -101,8 +123,11 @@ function displayAllShapes() {
 		strokeWeight(1.5);
 		strokeCap(ROUND);
 
-		
-
+		if (allIntroShapes[i].soundRefs.isPlaying()) {
+			allIntroShapes[i].filled = true;
+		} else {
+			allIntroShapes[i].filled = false;
+		}
 
 		if (allIntroShapes[i].filled) {
 			fill(0);
@@ -128,11 +153,12 @@ function displayAllShapes() {
 	    // not last shape
 	    if (i < allIntroShapes.length-1) {
 	    	var nextShape = allIntroShapes[i+1].shapePoints;
+	    	// check if space is at the end of the row
 	    	if (xOffset+nextShape.shapeLength*scale < (width/2-nextShape.shapeLength*scale-60)) {
 		    	xOffset = xOffset + thisShape.shapeLength*scale + padding;
 			} else {
 				xOffset = -width/2+60+270;
-				yOffset = height/originYAdjust*2-10 - 200*counterOffset;
+				yOffset = height*(originOffset/originYAdjust)-100 - yPadding*counterOffset;
 				counterOffset++;
 			}
 		// last shape
@@ -142,15 +168,3 @@ function displayAllShapes() {
 	    
 	}
 }
-
-
-
-
-	
-
-	
-
-
-
-
-
