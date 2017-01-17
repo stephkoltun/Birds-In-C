@@ -51,6 +51,9 @@ function setup() {
   addButton = new Initializer(0,0,0);
   centerLine = new Grid();
   time = millis();
+
+  // setup recording
+  //initRecord();
 }
 
 function draw() {
@@ -63,9 +66,9 @@ function draw() {
 
 
   // ELLIPSE FOR DEBUGGING, SHOWS MOUSE POSITION
-  ellipseMode(CENTER);
-  fill(255,30,80);
-  ellipse(mouseX-width/2,mouseY-((height/originYAdjust)*originOffset),5,5);
+  // ellipseMode(CENTER);
+  // fill(255,30,80);
+  // ellipse(mouseX-width/2,mouseY-((height/originYAdjust)*originOffset),5,5);
 
 
   if (introState == true) {
@@ -123,7 +126,7 @@ function draw() {
        // reset button
       var playInstruc = select("#playingText");
       playInstruc.show();
-      playInstruc.position(width-100,height/2+40);
+      playInstruc.position(width-100,(height*(originOffset/originYAdjust)*.8));
 
       //show shapes
       for (i = 0; i < players.length; i++) {
@@ -187,6 +190,16 @@ $("#startButton").click(function() {
   introState = false;
   practiceState = true;
   gameState = false;
+
+
+  // start recording practice sounds
+  if (recState === 0) {
+    console.log("recording started");
+    // record to our p5.SoundFile
+    recorder.record(soundFile);
+    recState++;
+  }
+
 });
 
 $("#playButton").click(function() {
@@ -205,9 +218,18 @@ $("#playButton").click(function() {
 
 $("#reset").click(function() {
 
-  location.reload();
-  // empty array
+/*  if (recState === 1) {
+    console.log("recording stopped");
+    recorder.stop();
 
+    saveSound(soundFile, 'mySound.wav');
+    
+    recState = 0;
+  }*/
+
+  location.reload();
+
+  // empty array
 /*  for (var i = 0; i < players.length; i++) {
     players[i].stopSound();
   }
@@ -241,5 +263,20 @@ function keyPressed() {
     introState = false;
     practiceState = false;
     gameState = true;
+  }
+
+  if (key == "R" || key == "r") {
+    if (recState === 0) {
+      console.log("recording started");
+      // record to our p5.SoundFile
+      recorder.record(soundFile);
+      recState++;
+    } else if (recState === 1) {
+      console.log("recording stopped");
+      recorder.stop();
+      saveSound(soundFile, 'mySound.wav');
+      recState = 0;
+    }
+
   }
 }

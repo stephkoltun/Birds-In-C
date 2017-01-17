@@ -160,7 +160,7 @@ function Advancer(color,name) {
       // bird label
       fill(this.c);
       noStroke();
-      textFont('Unica One',14);
+      textFont('Raleway',14);
       textAlign(RIGHT,BOTTOM);
       text(name,this.textX, this.textY);
     }
@@ -228,7 +228,6 @@ function Advancer(color,name) {
 
         // move previous phrases
         for (var i = 0; i < this.shapes.length; i++) {
-          console.log(i);
           var shiftLength = 0;
 
           // everything is moving the length of the second from last shape
