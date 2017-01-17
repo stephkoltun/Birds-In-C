@@ -14,27 +14,36 @@
 
     <script src="hammer.min.js"></script>
 
-
-
     <script src="data.js"></script>
     <script src="bird.js"></script>
     <script src="interface.js"></script>
     <script src="intro.js"></script>
-    <script src="record.js"></script>
-
-    <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="1wiiwke9clxchu2"></script>
-    
 
     <link href="https://fonts.googleapis.com/css?family=Unica+One" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Quattrocento" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway:500,500i,600" rel="stylesheet">
+    
+    <link rel="stylesheet" type="text/css" href="loaders.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
 
   </head>
   <body>
+
+    <div id="loadingScreen">
+        <div class="line-scale">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <p>... the birds are assembling ...</p>
+    </div>
     
     <div id="thisCanvas">
     </div>
+
+
 
     <div id="introText">
     	<div class ="innerWrap">
@@ -47,9 +56,8 @@
     		</div>
             <button id="startButton">start</button>
             <p class="cred">created by <a href="http://anothersideproject.co">Another Side Project</a></p>
-            
     	</div>
-        
+    </div>
     </div>
 
     <div id="practiceText">
@@ -58,7 +66,7 @@
     </div>
 
      <div id="playingText">
-        <button id="reset">restart</button>
+       <!--  <button id="reset">restart</button> -->
     </div> 
 
     <script src="mobile.js"></script>
