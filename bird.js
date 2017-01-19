@@ -6,9 +6,7 @@ function addBird(phraseSet) {
 
     newBird.advancer = new Advancer(colorSet[birdIndex],nameSet[birdIndex]);
     newBird.advancer.index = birdIndex;
-    newBird.advancer.addPhrase();
-    newBird.advancer.phraseIndex++;
-    newBird.advancer.addPhrase();
+    newBird.advancer.addAllPhrases();
 
     players.push(newBird);
   }
@@ -77,6 +75,7 @@ function Bird(soundPhrases,color) {
   }
 
   this.playSound = function() {
+    this.sounds[this.phraseIndex].setVolume(1);
     this.sounds[this.phraseIndex].play();
     this.sounds[this.phraseIndex].loop();
   }
@@ -87,113 +86,161 @@ function Bird(soundPhrases,color) {
   }
 }
 
+
+
+
+
+
 function Advancer(color,name) {
+
+  var spaceForBirds = height*((originYAdjust-originOffset)/originYAdjust)-50;
+  var birdHeight = spaceForBirds/4;
+
   this.index;
   this.x = 0;
-  this.y = 20+55*(birdIndex); //space between birds
-  this.triY = this.y+20; // space between shapes and bird title
+  this.y = birdHeight+birdHeight*(birdIndex); //space between birds
+  this.triY = this.y; // space between shapes and bird title
   this.width = 12;
   this.height = 12;
 
   this.textX = this.x-10;
   this.textY = this.triY+3;
 
-  this.multiplier = 4;
+  this.multiplier = 6;
   this.phraseIndex = 0;
-  this.nextPhrase = 1;
+  this.nextPhrase = this.phraseIndex+1;
 
-  this.nextOffset = 10;
+  this.nextOffset = 8;
+  this.weight = 2;
+  this.quietweight = 0.5;
 
   this.c = "rgb(" + color + ")";
 
   this.shapes = [
   ];
 
+  this.fillNext = 240;
+
   this.display = function() {
+    var xOffset = 0;
 
     // display shapes as well
     for (var i = 0; i < this.shapes.length; i++) {
 
-      if (i == this.phraseIndex-1) {
-        fill(this.c);
+      if (i == this.phraseIndex) {
+        fill(this.c); 
+        strokeWeight(this.weight);
+      } else if (i == this.phraseIndex + 1) {
+        fill(this.fillNext); 
+        strokeWeight(this.weight);
       } else {
         noFill();
+        strokeWeight(this.quietweight);
       }
 
       stroke(this.c);
-      strokeWeight(1);
+      
 
       var x;
       var y;
+
       beginShape();
         for (var j = 0; j < this.shapes[i].noteDuration.length; j++) {
 
-          if (i !=0 ) {
-            // length of prev shape is the offset
-            var xOffset = this.shapes[i-1].shapeLength;
-            x = (this.shapes[i].noteDuration[j]+xOffset)*this.multiplier; 
-
-          } else {
-            x = this.shapes[i].noteDuration[j]*this.multiplier;
-          }
+          x = this.shapes[i].noteDuration[j]*this.multiplier+xOffset;
           y = this.shapes[i].frequency[j]*this.multiplier;
 
           vertex(x,-y+this.triY);
         }
       endShape(CLOSE);
 
+      // length of prev shape is the offset
+      xOffset = xOffset + this.shapes[i].shapeLength*this.multiplier + this.nextOffset;
+
       // bird label
       fill(this.c);
       noStroke();
-      textFont('Unica One',14);
+      textFont('Raleway',14);
       textAlign(RIGHT,BOTTOM);
       text(name,this.textX, this.textY);
     }
   }
 
 
-  this.addPhrase = function() {
-    var shapeObject = {};
-    shapeObject.noteDuration = masterShapes[this.phraseIndex].noteDuration.slice();
-    shapeObject.frequency = masterShapes[this.phraseIndex].frequency.slice();
-    shapeObject.shapeLength = masterShapes[this.phraseIndex].shapeLength;
+  this.addAllPhrases = function() {
 
-    this.shapes.push(shapeObject);
+    for (var i = 0; i < masterShapes.length; i++) {
+
+      var curPhrase = i;
+      var shapeObject = {};
+
+        shapeObject.noteDuration = masterShapes[i].noteDuration.slice();
+        shapeObject.frequency = masterShapes[i].frequency.slice();
+        shapeObject.shapeLength = masterShapes[i].shapeLength;
+
+        this.shapes.push(shapeObject);
+    }
+  }
+
+  this.mouseover = function() {
+
+    var shape = this.shapes[this.phraseIndex+1];
+    var curShape = this.shapes[this.phraseIndex];
+
+    var xOffset = curShape.shapeLength*this.multiplier+this.nextOffset;
+
+    var leftEdge = shape.noteDuration[0]*this.multiplier+xOffset;
+    var rightEdge = leftEdge+shape.shapeLength*this.multiplier;
+    var bottomEdge = this.triY;
+    var topEdge = bottomEdge-(Math.max(...shape.frequency)*this.multiplier);
+    
+
+    if (mousePosX > leftEdge && mousePosX < rightEdge && mousePosY > topEdge && mousePosY < bottomEdge) {
+      this.fillNext = this.c;
+    } else {
+      this.fillNext = 240;
+    }
   }
 
 
-
   this.clicked = function() {
+    var shape = this.shapes[this.phraseIndex+1];
+    var curShape = this.shapes[this.phraseIndex];
 
-    var d = dist(mousePosX, mousePosY, this.x, this.y);
-    if (d <= this.width) {
+    var xOffset = curShape.shapeLength*this.multiplier+this.nextOffset;
 
+    var leftEdge = shape.noteDuration[0]*this.multiplier+xOffset;
+    var rightEdge = leftEdge+shape.shapeLength*this.multiplier;
+    var bottomEdge = this.triY;
+    var topEdge = bottomEdge-(Math.max(...shape.frequency)*this.multiplier);
+    
+
+    if (mousePosX > leftEdge && mousePosX < rightEdge && mousePosY > topEdge-10 && mousePosY < bottomEdge+10) {
+
+      // if not the last shape
       if (players[this.index].phraseIndex < masterShapes.length-1) {
         players[this.index].stopSound();
         players[this.index].phraseIndex++;
         players[this.index].playSound();
 
-        
+        this.shapes.splice(0,1);
+
 
         // move previous phrases
         for (var i = 0; i < this.shapes.length; i++) {
+          var shiftLength = 0;
 
           // everything is moving the length of the second from last shape
-          var shiftLength = this.shapes[this.shapes.length-2].shapeLength;
+          shiftLength = this.shapes[i-1].shapeLength;
 
           for (var j = 0; j < this.shapes[i].noteDuration.length; j++) {
             this.shapes[i].noteDuration[j] = this.shapes[i].noteDuration[j] - shiftLength;
           }
         }
 
-        // move label
-        this.textX = this.textX - shiftLength*this.multiplier;
-
 
         // add new phrase
         this.phraseIndex++;
-        this.addPhrase();
-
 
       } else {
         console.log("end bird");

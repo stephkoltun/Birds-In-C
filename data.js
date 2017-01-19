@@ -373,14 +373,6 @@ var masterShapes = [
     "increment": 0
   },
 
-
-  /*{
-    "noteDuration": [],
-    "frequency": [],
-    "shapeLength": ,
-    "increment": 0
-  },*/
-
 ];
 
 var colorSet = ["100,150,200", "50,180,170", "90,50,120", "20,40,200", "190,210,40", "250,175,110", "130,250,70"];

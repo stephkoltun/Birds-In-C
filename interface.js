@@ -3,11 +3,13 @@ var compositeStateOpen = false;
 function expandBirds() {
   console.log("Expand!");
   var lastPlayer = players.length-1;
+
+  var overallExpandHeight = height*(originOffset/originYAdjust)-50;
+
   for (i = 0; i < players.length; i++) {
-    players[lastPlayer-i].verticalOffset = i*(height/15*2);
+    players[lastPlayer-i].verticalOffset = i*(overallExpandHeight/4);
   }
   compositeStateOpen = true;
-  centerLine.height = (height/originYAdjust)*originOffset;
 }
 
 function contractBirds() {
@@ -15,13 +17,15 @@ function contractBirds() {
     players[i].verticalOffset = 0;
   }
   compositeStateOpen = false;
-  centerLine.height = height/15*2;
 }
 
 
 function Initializer(r,g,b) {
+  var spaceForBirds = height*((originYAdjust-originOffset)/originYAdjust)-50;
+  var birdHeight = spaceForBirds/4;
+
   this.x = 0;
-  this.y = 20;
+  this.y = birdHeight/2;
   this.width = 2;
   this.height = 10;
 
@@ -59,7 +63,7 @@ function Initializer(r,g,b) {
     fill(this.fillPlus);
     textFont("Raleway", 12);
     textAlign(LEFT,CENTER);
-    text("bird", 15, 25+this.buttonOffset);
+    text("bird", 15, this.y+5+this.buttonOffset);
   }
 
   this.clicked = function() {
@@ -69,8 +73,10 @@ function Initializer(r,g,b) {
       players[birdIndex].playSound();
       birdIndex++;
 
+      
+
       // move button down
-      this.buttonOffset = this.buttonOffset + 55;
+      this.buttonOffset = this.buttonOffset + birdHeight;
       console.log("added bird!");
     }
   }
@@ -93,7 +99,7 @@ function Grid() {
   this.y = 0;
 
   this.width = width/2;
-  this.height = height/15*3;
+  this.height = (height/originYAdjust)*originOffset;
 
   this.display = function() {
     fill(240,160);
