@@ -33,7 +33,7 @@ html, body {
 }
 
 
-#introText, #playingText {
+#introText, #practiceText, #playingText {
 	visibility: hidden;
 	position: absolute;
 	top: 50%;

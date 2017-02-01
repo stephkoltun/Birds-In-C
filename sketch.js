@@ -59,7 +59,7 @@ function incrementLoaded() {
 }
 
 function showIntro() {
-  introState == true;
+  introState = true;
   $("#introText").css("visibility","visible");
   $("#loadingScreen").css("display","none");
 }
@@ -97,6 +97,8 @@ function draw() {
 
     if (introState == true) {
 
+        console.log("intro");
+
         var title = select("#introText");
         title.show();
 
@@ -105,11 +107,11 @@ function draw() {
 
         var playInstruc = select("#playingText");
         playInstruc.hide();
-
-
     }
 
     if (practiceState == true) {
+
+        console.log("practice");
 
         var title = select("#introText");
         title.hide();
@@ -135,6 +137,8 @@ function draw() {
 
 
     if (gameState == true) {
+
+        console.log("play");
 
         var title = select("#introText");
         title.hide();
