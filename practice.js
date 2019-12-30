@@ -34,7 +34,7 @@ function drawShapes() {
     let shape = new Shape(i, scale, padding);
     allShapes.push(shape);
     shape.addCanvas();
-    shape.draw();
+    shape.draw(shape.canvas);
   }
   drawn = true;
 }
@@ -51,7 +51,6 @@ class Shape {
     this.loadedSound = false;
     this.padding = padding;
   }
-
 
   clicked() {
     // if sound is playing, end it;
@@ -78,13 +77,13 @@ class Shape {
     this.canvas = SVG().addTo('#practiceShapes').size(width, height);
   }
 
-  draw() {
+  draw(canvas) {
     let ptArray = [];
     this.duration.forEach((dur, i) => {
       ptArray.push(dur*this.scale);
       ptArray.push(this.notes[i]*this.scale*-1);
     })
-    this.svgRef = this.canvas.polyline(ptArray)
+    this.svgRef = canvas.polyline(ptArray)
     this.svgRef.move(this.padding, this.padding)
     this.svgRef.fill('white')
     this.svgRef.stroke({ color: '#f06', width: strokeWeight, linecap: 'round', linejoin: 'round' })
