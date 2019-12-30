@@ -3,66 +3,9 @@ html, body {
   padding: 0;
 }
 
-#loadingScreen {
-	width: 100vw;
-	height: 100vh;
-	background: rgb(240,240,240);
-
-	/* background-image: url("91.gif");
-	background-repeat: no-repeat;
-	background-position: center; */
-	z-index: 10000;
-}
-
-#loadingScreen p {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%,-50%);
-}
-
-.line-scale {
-	position: absolute;
-	top: 45%;
-	left: 50%;
-	transform: translate(-50%,-50%);
-}
-
-.line-scale > div {
-	background-color: rgb(50,175,110);
-}
-
-
-#introText, #playingText {
-	visibility: hidden;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-}
-
-.innerWrap {
-	position: relative;
-	transform: translate(-50%,-50%);
-}
-
-#desc a, #desc a:visited {
-	color: #000000;
-}
-
-#desc a:hover {
-	color: rgb(50,175,110);
-}
-
-hr {
-	border: none;
-	background-color: #000;
-	height: 2px;
-}
-
 h1 {
 	margin: 0 0 10px 0;
 	font-size: 36px;
-	color: rgb(50,175,110);
 	font-family: 'Unica One', cursive;
 }
 
@@ -80,72 +23,22 @@ p {
 	font-family: 'Quattrocento', serif;
 }
 
-p.cred {
-	padding-top: 20px;
-	text-align: center;
-	color: #000000;
-	font-size: 11px;
-	font-weight: 500;
-	font-family: 'Raleway', sans-serif;
+#aboutWrapper {
+  max-width: 600px;
+  text-align: left;
+  padding: 50px;
+  margin: 50px auto;
 }
 
-p.cred a, p.cred a:visited {
-	color: #000000;
+#practiceWrapper {
+  text-align: center;
+  margin: 50px;
 }
 
-p.cred a:hover {
-	background: rgb(50,175,110);
+.hide {
+  display: none;
 }
 
-p.special {
-	color: rgb(50,175,110);
-	font-size: 17px;
-	font-weight: 600;
-	font-family: 'Raleway', sans-serif;
+#practiceShapes {
+
 }
-
-#practiceText {
-	width: 240px;
-}
-
-#startButton, #playButton {
-	background:none;
-  	border: 2px solid rgb(50,175,110);
-  	color: rgb(50,175,110);
-  	font-size: 20px;
-  	font-weight: bold;
-  	font-family: 'Unica One', cursive;
-	padding: 6px 8px;
-
-  	display: block;
-  	margin: 40px auto;
-}
-
-#startButton:hover, #playButton:hover {
-	background: rgb(50,175,110);
-	color: white;
-}
-
-#reset {
-	background:rgb(240,240,240);
-  	border: 1.5px solid rgb(125,125,125);
-  	border-radius: 15px;
-  	color: rgb(125,125,125);
-  	font-size: 10px;
-  	font-weight: 600;
-	font-family: 'Raleway', sans-serif;
-	padding: 4px 8px;
-}
-
-#reset:hover {
-	background: rgb(125,125,125);
-	color: rgb(240,240,240);
-}
-
-
-
-#instruc {
-	color: rgb(50,175,110);
-}
-
-
