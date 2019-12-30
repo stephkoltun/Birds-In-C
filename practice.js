@@ -86,7 +86,7 @@ class Shape {
     this.svgRef = canvas.polyline(ptArray)
     this.svgRef.move(this.padding, this.padding)
     this.svgRef.fill('white')
-    this.svgRef.stroke({ color: '#f06', width: strokeWeight, linecap: 'round', linejoin: 'round' })
+    this.svgRef.stroke({ color: colorSet[0], width: strokeWeight, linecap: 'round', linejoin: 'round' })
 
     this.svgRef.mouseover(() => {
       this.hover();
@@ -122,72 +122,3 @@ class Shape {
     }
   }
 }
-
-
-
-
-
-// function Shape(phraseIndex) {
-// 	this.c = 0;
-// 	this.filled = false;
-//
-// 	if (width <= 768) {
-// 		this.scale = 3;
-// 	} else if (width > 768 && width <= 992) {
-// 		this.scale = 4;
-// 	} else if (width > 992 && width <= 1200) {
-// 		this.scale = 4.3;
-// 	}  else if (width > 1200) {
-// 		this.scale = 5.5;
-// 	}
-//
-//
-//
-// 	this.phraseIndex = phraseIndex;
-//
-// 	this.shapePoints = {};
-// 	this.soundRefs;
-//
-// 	this.leftEdge;
-// 	this.rightEdge;
-// 	this.topEdge;
-// 	this.bottomEdge;
-//
-//
-//
-// 	this.clicked = function() {
-//
-// 		// circle at center to see where the shape is
-// 		// FOR DEBUGGING
-// 		//fill(0);
-// 		//ellipse(midX+xTotalOffset,-midY-height/originYAdjust*2,5,5);
-//
-//
-// 		if (mousePosX < this.rightEdge+5 && mousePosX > this.leftEdge-5 && mousePosY > this.topEdge-10 && mousePosY < this.bottomEdge+10) {
-// 			this.filled = true;
-//
-// 			if (this.soundRefs.isPlaying() == false) {
-// 				// stop previous sound
-// 				allIntroShapes[prevShapeSoundPlayed].soundRefs.stop();
-//
-// 				this.soundRefs.setVolume(1);
-// 				this.soundRefs.play();
-// 				prevShapeSoundPlayed = this.phraseIndex;
-// 			}
-// 		}
-// 	}
-//
-// 	this.mouseHover = function() {
-//
-//
-// 		if (mousePosX < this.rightEdge && mousePosX > this.leftEdge && mousePosY > this.topEdge && mousePosY < this.bottomEdge) {
-// 			this.filled = true;
-// 		} else {
-// 			if (this.soundRefs.isPlaying()) {
-// 				this.filled = true;
-// 			} else {
-// 				this.filled = false;
-// 			}
-// 		}
-// 	}
-// }

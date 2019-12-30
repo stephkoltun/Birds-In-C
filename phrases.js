@@ -1,6 +1,6 @@
 // THE X/Y VALUES FOR THIS ARE NOT RIGHT!!!!
 // REWRITE SHAPES!!!!!
-console.log('-loaded phrases file')
+
 var shapeData = [
   // 1
   {
@@ -376,6 +376,7 @@ var shapeData = [
 
 ];
 
-var colorSet = ["100,150,200", "50,180,170", "90,50,120", "20,40,200", "190,210,40", "250,175,110", "130,250,70"];
+var colorSet = ["#f06", "#36ac47", "#fa5f02", "#3e2cb3"];
 
 var nameSet = ["Great Horned Owl","Fox Sparrow","Blue Jay","King Parrot"];
+var fileSet = ["GrOwl","FoxSparrow","BlueJay","KingParrot"];
