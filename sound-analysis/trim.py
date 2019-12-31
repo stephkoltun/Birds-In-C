@@ -43,9 +43,6 @@ print(magnitudes)
 
 primaryPitches = []
 
-for m in magnitudes[200]:
-    print(m)
-
 for t in range(len(pitches)):
     index = magnitudes[:,t].argmax() # compare all mags at time (t) to find which index has the max value
     print('index', index)
@@ -56,20 +53,17 @@ for t in range(len(pitches)):
 
 #print(primaryPitches)
 
-# find where we have C notes
-minC = 250
+# find where we have C notes - ideal is 261.626
+minC = 255
 maxC = 265
 
 cFrames = []
 for p in range(len(primaryPitches)):
     if primaryPitches[p][0] >= minC and primaryPitches[p][0] <= maxC and primaryPitches[p][1] > 30:
-        cFrames.append(p)
+        cFrames.append([p,primaryPitches[p][0]])
 
 print(cFrames)
 
-
-# how to slice a bit of audio
-#idx = slice(*librosa.time_to_frames([30, 35], sr=sr))
 
 
 ###################
