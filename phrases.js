@@ -7,21 +7,21 @@ var shapeData = [
     "noteDuration": [0,1,3,4,6,7,9], // x axis values [0,1,2,1,2,1,2]
     "frequency": [0,4,0,4,0,4,0], // y axis values
     "shapeLength": 9,
-    "increment": 0, // speed/increment value is diff for each shape
+    "increment": 0 // speed/increment value is diff for each shape
   },
   // 2
   {
     "noteDuration": [0,1,2,3,5],// x axis values [0,1,1,1,2]
     "frequency": [0,4,5,4,0],// y axis values
     "shapeLength": 5,
-    "increment": 0,
+    "increment": 0
   },
   // 3
   {
     "noteDuration": [0,1,1,2,3,4,4],// x axis values [0,1,1,1,1]
     "frequency":    [0,0,4,5,4,4,0],// y axis values
     "shapeLength": 4,
-    "increment": 0,
+    "increment": 0
   },
   // 4
   {

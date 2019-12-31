@@ -86,7 +86,7 @@ class Shape {
     this.svgRef = canvas.polyline(ptArray)
     this.svgRef.move(this.padding, this.padding)
     this.svgRef.fill('white')
-    this.svgRef.stroke({ color: colorSet[0], width: strokeWeight, linecap: 'round', linejoin: 'round' })
+    this.svgRef.stroke({ color: 'black', width: strokeWeight, linecap: 'round', linejoin: 'round' })
 
     this.svgRef.mouseover(() => {
       this.hover();
