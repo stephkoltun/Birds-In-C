@@ -1,37 +1,25 @@
 const scale = 10;
 const strokeWeight = 1.5;
-const preloadCount = 4;
 
 let birdIndex = 0;
 let birds = [];
 
-let scoreSettings = {
+// save these outside the birds so we can preload them
+const allSoundFiles = {};
+const preloadCount = 4;
+
+const scoreSettings = {
   width: $(window).width(),
   height: 200
 }
-
-// using first phrase (2000ms, 9length) as fixed values to calculate
-// let timeInterval = 4;
-// let distInterval = timeInterval * (shapeData[0].shapeLength*scale/2000) * -1 // -0.18
-
-
-// save these outside the birds so we can preload them
-const allSoundFiles = {};
-
 const playingCanvas = initCanvas();
 const shapesGroup = playingCanvas.group();
 shapesGroup.transform({translateY: -20})
-const gridGroup = playingCanvas.group();
 
+const gridGroup = playingCanvas.group();
 gridGroup.rect(scoreSettings.width/2,scoreSettings.height).move(-scoreSettings.width/2, -scoreSettings.height).fill('white').opacity(0.5)
 gridGroup.line(0, -scoreSettings.height, 0, 0).stroke({ color: 'black', width: strokeWeight*2, linecap: 'round', linejoin: 'round' })
 
-
-$("#addBird").click(() => {
-    if (birdIndex < nameSet.length) {
-      addBird();
-    }
-})
 
 
 function initCanvas() {
@@ -40,7 +28,6 @@ function initCanvas() {
   canvas.viewbox(-scoreSettings.width/2, -scoreSettings.height, scoreSettings.width, scoreSettings.height);
   return canvas
 }
-
 
 function addBird() {
 
@@ -64,9 +51,14 @@ function addBird() {
 
   birds.push(newBird);
   birdIndex++;
-
-  console.log(birds);
 }
+
+// event listeners
+$("#addBird").click(() => {
+    if (birdIndex < nameSet.length) {
+      addBird();
+    }
+})
 
 class Bird {
   constructor(index) {
@@ -86,9 +78,8 @@ class Bird {
   addShape(phraseIndex) {
     const shape = new Shape(phraseIndex, scale, this.color);
     this.shapes.push(shape);
-    console.log(shape);
+
     this.curInterval = shape.duration;
-    console.log(this.name, this.curInterval);
     shape.draw(this.group);
 
     // move it right away
@@ -100,8 +91,6 @@ class Bird {
       this.moveShapes(-shape.length*scale);
       if (this.curPhrase === shape.index) shape.extend();
     }, this.curInterval)
-
-    console.log(birds);
   }
 
   nextPhrase() {
@@ -110,6 +99,7 @@ class Bird {
     this.addShape(this.curPhrase);
     this.endSound(this.curPhrase-1);
 
+    // preload subsequent sound
     if ((this.curPhrase + 1 < shapeData.length-1) && (this.curPhrase+1 > preloadCount-1)) {
       this.loadSound(this.curPhrase + 1)
     }
@@ -162,6 +152,7 @@ class Shape {
     this.repeats = 1;
   }
 
+  // audio duration of associated phrase
   get duration() {
     for (let i = 0; i < Object.keys(allSoundFiles).length; i++) {
       const key = Object.keys(allSoundFiles)[i];
@@ -175,17 +166,13 @@ class Shape {
   }
 
   draw(canvas) {
-    this.noteDuration.forEach((dur, i) => {
-      this.ptArray.push(dur*this.scale);
-      this.ptArray.push(this.notes[i]*this.scale*-1);
-    })
-    this.svgRef = canvas.polyline(this.ptArray)
-    this.svgRef.fill('none')
-    this.svgRef.stroke({ color: this.color, width: strokeWeight, linecap: 'round', linejoin: 'round' })
+    // draw to the group
+    this.ptArray = convertToShape(this.noteDuration, this.notes, this.scale);
+    this.svgRef = drawShape(canvas, this.ptArray, this.color, 'none', strokeWeight)
   }
 
   extend() {
-    let array = [].concat(...this.svgRef.array());
+    let array = [].concat(...this.svgRef.array());  // flatten polyline array
     let extended = array.concat(this.ptArray);
     this.svgRef.plot(extended)
     this.repeats++;
@@ -193,6 +180,7 @@ class Shape {
   }
 
 }
+
 
 function preloadFiles() {
   nameSet.forEach((name,index) => {

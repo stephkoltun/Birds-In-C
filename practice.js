@@ -29,8 +29,6 @@ $("#about").click(function() {
 
 function drawShapes() {
   for (let i = 0; i < shapeData.length; i++) {
-    // check for X offset
-    // check for Y offset
     let shape = new Shape(i, scale, padding);
     allShapes.push(shape);
     shape.addCanvas();
@@ -78,15 +76,8 @@ class Shape {
   }
 
   draw(canvas) {
-    let ptArray = [];
-    this.duration.forEach((dur, i) => {
-      ptArray.push(dur*this.scale);
-      ptArray.push(this.notes[i]*this.scale*-1);
-    })
-    this.svgRef = canvas.polyline(ptArray)
-    this.svgRef.move(this.padding, this.padding)
-    this.svgRef.fill('white')
-    this.svgRef.stroke({ color: 'black', width: strokeWeight, linecap: 'round', linejoin: 'round' })
+    let ptArray = convertToShape(this.duration, this.notes, this.scale);
+    this.svgRef = drawShape(canvas, ptArray, 'black', 'white', strokeWeight, this.padding)
 
     this.svgRef.mouseover(() => {
       this.hover();
