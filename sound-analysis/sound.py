@@ -11,6 +11,7 @@ import librosa.display
 
 #filename = librosa.util.example_audio_file()
 filename = "horned-owl.mp3"
+#filename = "trimShift-owl.wav"
 print(filename)
 
 # 2. Load the audio as a waveform `y`
@@ -32,7 +33,7 @@ S_full, phase = librosa.magphase(librosa.stft(y))
 S_filter = librosa.decompose.nn_filter(S_full,
                                        aggregate=np.median,
                                        metric='cosine',
-                                       width=int(librosa.time_to_frames(2, sr=sr)))
+                                       width=int(librosa.time_to_frames(1, sr=sr)))
 
 # The output of the filter shouldn't be greater than the input
 # if we assume signals are additive.  Taking the pointwise minimium
@@ -56,14 +57,6 @@ mask_v = librosa.util.softmask(S_full - S_filter,
 S_foreground = mask_v * S_full
 S_background = mask_i * S_full
 
-
-# OPTION ONE
-res = librosa.feature.inverse.mel_to_audio(S_full)
-#scipy.io.wavfile.write((filename + "-full1.wav"), sr, res)
-
-
-sf.write((filename + "-full1SF.wav"), res, sr, subtype='PCM_24')
-
 plt.figure(figsize=(12, 8))
 plt.subplot(3, 1, 1)
 librosa.display.specshow(librosa.amplitude_to_db(S_full, ref=np.max),
@@ -84,12 +77,6 @@ plt.colorbar()
 plt.tight_layout()
 plt.show()
 
-
-
-
-
-# how to slice a bit of audio
-#idx = slice(*librosa.time_to_frames([30, 35], sr=sr))
 
 
 ###################

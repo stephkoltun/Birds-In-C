@@ -8,10 +8,11 @@ import scipy
 from pydub import AudioSegment
 
 import librosa.display
+import pyrubberband as pyrb
 
 
 #filename = librosa.util.example_audio_file()
-filename = "fox-sparrow.mp3"
+filename = "horned-owl.mp3"
 print(filename)
 
 # 2. Load the audio as a waveform `y`
@@ -40,7 +41,7 @@ pitches, magnitudes = librosa.piptrack(S=librosa.amplitude_to_db(S_foreground), 
 
 primaryPitches = []
 
-for t in range(len(pitches)):
+for t in range(len(pitches[0])):
     index = magnitudes[:,t].argmax() # compare all mags at time (t) to find which index has the max value
     pitch = pitches[index, t] # get the specified f bin (index) at time (t)
     mag = magnitudes[index,t]
@@ -53,34 +54,24 @@ maxC = 270
 minHighC = 515
 maxHighC = 535
 
-cFrames = []
-for p in range(len(primaryPitches[0])):
-    if (primaryPitches[p][0] >= minC and primaryPitches[p][0] <= maxC) or (primaryPitches[p][0] >= minHighC and primaryPitches[p][0] <= maxHighC) and primaryPitches[p][1] > 0:
-        cFrames.append([p,primaryPitches[p][0]])
+loudestFreq = [] # [ [fr,pitch,mag] ]
+for p in range(len(primaryPitches)):
+    if primaryPitches[p][1] > 64.5:
+        loudestFreq.append([p,primaryPitches[p][0],primaryPitches[p][1]])
 
-print(cFrames)
+print('loudest')
+print(loudestFreq)
 
-trims = []
+t1 = librosa.frames_to_time(180, sr=sr) * 1000 #Works in milliseconds
+t2 = librosa.frames_to_time(201, sr=sr) * 1000
 
-for i in range(len(cFrames)):
-    seg = cFrames[i]
-    start = seg[0]
-    end = None
-    if (i < len(cFrames)-1):
-        # find where it should end
-        for n in range(len(cFrames)):
-            if (n > i):
-                nextSeg = cFrames[n]
-                if (nextSeg[0]-seg[0] <= 10):
-                    end = nextSeg[0]
-                else:
-                    break
+# this is roughly a 350 / F4
+# to go from F4 to a C5, go up 7 semitones
+semitoneAdjust = 7
 
-    if end != None:
-        trims.append([start,end])
-
-print('--- trims')
-print(trims)
+newAudio = AudioSegment.from_mp3(filename)
+newAudio = newAudio[t1:t2]
+newAudio.export('trim-owl.wav', format="wav")
 
 
 # trim and save out the part of the file
@@ -100,8 +91,8 @@ print(trims)
 ###################
 # Plot the spectrum
 plt.figure(figsize=(12, 4))
-librosa.display.specshow(librosa.amplitude_to_db(S_full, ref=np.max),
-                         y_axis='log', x_axis='time', sr=sr)
+librosa.display.specshow(librosa.amplitude_to_db(S_foreground, ref=np.max),
+                         y_axis='log', x_axis='frames', sr=sr)
 plt.colorbar()
 plt.tight_layout()
 plt.show()
