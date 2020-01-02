@@ -10,10 +10,14 @@ e
 - dotted eighth
 - quarter
 - dotted quarter
+- dotted half
 
 f
 - sixteenth
 - eighth
+- dotted half
+- dotted half + sixteenth
+- whole + quarter
 - double whole
 
 f#
@@ -27,14 +31,21 @@ g
 - sixteenth
 - eighth
 - dotted eighth
+- quarter
 - dotted quarter
 - dotted half
-- dotted whole
+- dotted half + sixteenth
 - whole
+- dotted whole
 
 a
 - eighth
 - dotted quarter
+- whole
+
+a#/bflat
+- sixteenth
+- quarter
 
 b
 - sixteenth
@@ -48,7 +59,40 @@ high c
 - quarter
 - dotted half
 - whole
+- dotted whole
 - double whole
 
+high d
+- sixteenth
+- eighth
+- quarter
+
+high e
+- sixteenth
+- eighth
+- quarter
+- dotted half
+- half + eighth
+
+high f
+- sixteenth
+- eighth
+- dotted whole
+
+high f#
+- eighth
+- dotted half
+- dotted half + eighth
+
 high g
+- eighth
+- quarter
 - dotted quarter
+- dotted half
+
+high a
+- eighth
+- dotted quarter
+
+high b
+- eighth
