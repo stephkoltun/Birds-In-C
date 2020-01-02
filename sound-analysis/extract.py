@@ -48,12 +48,7 @@ for t in range(len(pitches[0])):
     primaryPitches.append([pitch,mag])
 
 
-# find where we have C notes - ideal is 261.626
-minC = 250
-maxC = 270
-minHighC = 515
-maxHighC = 535
-
+# find where we have loudest note
 loudestFreq = [] # [ [fr,pitch,mag] ]
 for p in range(len(primaryPitches)):
     if primaryPitches[p][1] > 64.5:
@@ -62,29 +57,19 @@ for p in range(len(primaryPitches)):
 print('loudest')
 print(loudestFreq)
 
-t1 = librosa.frames_to_time(180, sr=sr) * 1000 #Works in milliseconds
-t2 = librosa.frames_to_time(201, sr=sr) * 1000
+# manually picked this out from the array
+# should do a number of them and then pick based on the playback
+t1 = librosa.frames_to_time(1139, sr=sr) * 1000 #Works in milliseconds
+t2 = librosa.frames_to_time(1161, sr=sr) * 1000
 
-# this is roughly a 350 / F4
-# to go from F4 to a C5, go up 7 semitones
-semitoneAdjust = 7
+# 179,201
+# 1135, 1157
 
 newAudio = AudioSegment.from_mp3(filename)
 newAudio = newAudio[t1:t2]
-newAudio.export('trim-owl.wav', format="wav")
+newAudio.export('trim-owl_1139-1161.wav', format="wav")
 
-
-# trim and save out the part of the file
-
-# t1 = librosa.frames_to_time(261, sr=sr) * 1000 #Works in milliseconds
-# t2 = librosa.frames_to_time(322, sr=sr) * 1000
-# t1 = 4 * 1000 #Works in milliseconds
-# t2 = 6 * 1000
-# t1 = librosa.frames_to_time(trims[0][0], sr=sr) * 1000 #Works in milliseconds
-# t2 = librosa.frames_to_time(trims[0][1], sr=sr) * 1000
-# newAudio = AudioSegment.from_mp3(filename)
-# newAudio = newAudio[t1:t2]
-# newAudio.export('trim-'+filename, format="mp3")
+print('dur', newAudio.duration_seconds)
 
 
 
