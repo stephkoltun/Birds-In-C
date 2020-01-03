@@ -1,12 +1,15 @@
-# STEP TWO
+# STEP TWO: Shift and Stretch extracted sound clip
+# Generates audio files for all required notes and durations
 import numpy as np
 import soundfile as sf
 import pyrubberband as pyrb
 import librosa
+import librosa.display
+import matplotlib.pyplot as plt
 
 print('past import')
 
-unit = 2
+unit = 6
 noteLengths = {
     'sixteenth': unit/16,
     'eighth': unit/8,
@@ -53,7 +56,7 @@ frequencies = [
   { 'tone': 50, 'note': "A#4-Bb4", 'freq': 466.164, 'required': True, 'lengths':['sixteenth','quarter'] },
   { 'tone': 49, 'note': "A4", 'freq': 440.0, 'required': True, 'lengths':['eighth', 'quarterdotted', 'whole'] },
   { 'tone': 48, 'note': "G#4-Ab4", 'freq': 415.305, 'required': False },
-  { 'tone': 47, 'note': "G4", 'freq': 391.995, 'required': True, 'lengths':['sixteenth', 'eighth', 'eighthdotted', 'quarter', 'quarterdotted', 'halfdotted'] },
+  { 'tone': 47, 'note': "G4", 'freq': 391.995, 'required': True, 'lengths':['sixteenth', 'eighth', 'eighthdotted', 'quarter', 'quarterdotted', 'halfdotted', 'whole'] },
   { 'tone': 46, 'note': "F#4-Gb4", 'freq': 369.994, 'required': True, 'lengths':['sixteenth', 'eighth', 'quarterdotted', 'halfdotted', 'whole'] },
   { 'tone': 45, 'note': "F4", 'freq': 349.228, 'required': True, 'lengths':['sixteenth', 'eighth', 'halfdotted', 'halfdottedsixteenth', 'wholequarter', 'wholedouble'] },
   { 'tone': 44, 'note': "E4", 'freq': 329.628, 'required': True, 'lengths':['sixteenth', 'eighth', 'eighthdotted', 'quarter', 'quarterdotted', 'halfdotted'] },
@@ -72,7 +75,7 @@ frequencies = [
 
 
 bird = 'blue-jay'
-filename = 'WAV-MP3/' + bird + '/' + bird + '_Trim-fadeoff_166-194.wav'
+filename = 'WAV-MP3/' + bird + '/' + bird + '_Trim_441-454.wav'
 # owl files: horned-owl_Trim_242-253.wav, horned-owl_Trim-fadeoff_242-263.wav
 # sparrow: fox-sparrow_Trim_1898-1913.wav, fox-sparrow_Trim-fadeoff_1898-1923.wav
 # parrot: aust-king-parrot_Trim_158-165.wav, aust-king-parrot_Trim-fadeoff_510-527.wav
@@ -81,13 +84,29 @@ y, sr = librosa.load(filename)
 S_full, phase = librosa.magphase(librosa.stft(y))
 pitches, magnitudes = librosa.piptrack(S=librosa.amplitude_to_db(S_full), sr=sr)
 
+# pitches, magnitudes, stft = librosa.ifptrack(y, sr)
+#pitches = pitches[magnitudes > np.median(magnitudes)]
+
+plt.figure(figsize=(12, 4))
+librosa.display.specshow(librosa.amplitude_to_db(S_full, ref=np.max),
+                         y_axis='log', x_axis='time', sr=sr)
+plt.colorbar()
+plt.tight_layout()
+plt.show()
+
 
 def generateLengths(notename, duration, notelength, y, sr):
     name = 'WAV-MP3/' + bird + '/' + bird + '_' + notename + '_' + l + '.wav'
     if (duration >= noteLengths[notelength]):
         trimmed = None
         if (notelength == 'sixteenth' or notelength == 'eighth'):
-            trimmed = y[-int(noteLengths[notelength]*1000):]
+            playback = duration/noteLengths['quarter']
+            quarterTemp = pyrb.time_stretch(y, sr, playback)
+            if (notelength == 'sixteenth'):
+                trimmed = quarterTemp[int(noteLengths['eighth']*1000):]
+                trimmed = trimmed[-int(noteLengths[notelength]*1000):]
+            else:
+                trimmed = quarterTemp[-int(noteLengths[notelength]*1000):]
         else:
             trimmed = y[:int(noteLengths[notelength]*1000)]
         sf.write(name, trimmed, sr, subtype='PCM_24')
@@ -96,6 +115,7 @@ def generateLengths(notename, duration, notelength, y, sr):
         timeNote = pyrb.time_stretch(y, sr, playback)
         sf.write(name, timeNote, sr, subtype='PCM_24')
 
+print (pitches)
 print('frames', len(pitches[0]))
 
 # identify the note
@@ -112,26 +132,41 @@ for t in range(len(magnitudes[0])):
         if (m < minMag):
             minMag = m
 
-for t in range(len(pitches[0])):
-    sum = 0
-    total = 0
-    for k in range(len(pitches)):
-        p = pitches[k][t]
-        m = magnitudes[k][t]
-        if (m >= maxMag - 5):
-            print(sum, total)
-            sum = sum + p
-            total += 1
+print('min', minMag)
+print('max', maxMag)
 
-    if (sum != 0 and total != 0):
-        avg = sum/total
-        avgPitches.append(avg)
+# deviation from 440hz
+cFraction = librosa.pitch_tuning(pitches)
+c = cFraction*1200
+K = 3986.3
 
-print(avgPitches)
-print('confirm len', len(avgPitches))
+# read some stuff about tuning here: https://steelguitarforum.com/Forum11/HTML/009148.html
+# c = K*(np.log10(hzAvg)-np.log10(440))
+totalAvg = 10**(c/K + np.log10(440))
 
-totalAvg = np.sum(avgPitches) / len(pitches[0])
 print('avg', totalAvg)
+
+
+# THIS WASN"T REALLY WORKING
+# for t in range(len(pitches[0])):
+#     sum = 0
+#     total = 0
+#     for k in range(len(pitches)):
+#         p = pitches[k][t]
+#         m = magnitudes[k][t]
+#         if (np.sum(pitches[k]) > 0):
+#             sum = sum + p
+#             total += 1
+#
+#     if (sum != 0 and total != 0):
+#         avg = sum/total
+#         avgPitches.append(avg)
+#
+# print(avgPitches)
+# print('confirm len', len(avgPitches))
+#
+# totalAvg = np.sum(avgPitches) / len(pitches[0])
+# print('avg', totalAvg)
 
 fuzzyFreq = 5
 identifiedPitch = None

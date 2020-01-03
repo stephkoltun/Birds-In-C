@@ -1,3 +1,5 @@
+# ARCHIVED. Initial attempt to find 'C' in a phrase
+
 # spectrogram FILTER AND MASK example
 # but the resulting audio sounds liks shit
 import numpy as np

@@ -1,3 +1,5 @@
+# APPENDIX: USED TO GENERATE PITCH AND MAGNITUDE DATA FOR WEB VISUALIZATION
+
 # spectrogram FILTER AND MASK example
 # but the resulting audio sounds liks shit
 import numpy as np

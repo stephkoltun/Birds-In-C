@@ -1,3 +1,6 @@
+# ARCHIVED
+
+
 # spectrogram FILTER AND MASK example
 # but the resulting audio sounds liks shit
 import numpy as np
