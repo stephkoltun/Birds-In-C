@@ -1,5 +1,5 @@
-# spectrogram FILTER AND MASK example
-# but the resulting audio sounds liks shit
+# STEP ONE
+
 import numpy as np
 import matplotlib.pyplot as plt
 import librosa
@@ -8,7 +8,6 @@ import scipy
 from pydub import AudioSegment
 
 import librosa.display
-import pyrubberband as pyrb
 
 
 #filename = librosa.util.example_audio_file()
