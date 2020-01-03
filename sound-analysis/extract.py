@@ -1,4 +1,6 @@
-# STEP ONE
+# STEP ONE: Extract small clip of audio from bird song
+# Looks for high sound level and extended duration of that magnitude
+# Doesn't look for pitch variability in that period, but could in the future
 
 import numpy as np
 import matplotlib.pyplot as plt
