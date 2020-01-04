@@ -73,6 +73,11 @@ frequencies = [
   { 'tone': 33, 'note': "F3", 'freq': 174.614, 'required': False }
 ]
 
+## this is just based on looking at the spectrogram
+averagePitches = {
+    'blue-jay': 4100
+    'horned-owl': 379
+}
 
 bird = 'blue-jay'
 filename = 'WAV-MP3/' + bird + '/' + bird + '_Trim_441-454.wav'
@@ -118,8 +123,8 @@ def generateLengths(notename, duration, notelength, y, sr):
 print (pitches)
 print('frames', len(pitches[0]))
 
-# identify the note
-avgPitches = []
+######## identify the note
+
 maxMag = 0.0;
 minMag = 100000.0;
 
@@ -140,14 +145,19 @@ cFraction = librosa.pitch_tuning(pitches)
 c = cFraction*1200
 K = 3986.3
 
+# FIND AVERAGE PITCH
 # read some stuff about tuning here: https://steelguitarforum.com/Forum11/HTML/009148.html
 # c = K*(np.log10(hzAvg)-np.log10(440))
 totalAvg = 10**(c/K + np.log10(440))
+
+# TO DO: alt - just use hard coded value identified by looking at the spectrogram
+# totalAvg = averagePitches[bird]
 
 print('avg', totalAvg)
 
 
 # THIS WASN"T REALLY WORKING
+# avgPitches = []
 # for t in range(len(pitches[0])):
 #     sum = 0
 #     total = 0
